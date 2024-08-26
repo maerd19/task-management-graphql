@@ -1,9 +1,15 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+export enum TaskStatus {
+  TODO = "TODO",
+  IN_PROGRESS = "IN_PROGRESS",
+  DONE = "DONE",
+}
+
 export interface ITask extends Document {
   title: string;
   description?: string;
-  status: "TODO" | "IN_PROGRESS" | "DONE";
+  status: TaskStatus;
   assignedTo?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -15,8 +21,8 @@ const TaskSchema: Schema = new Schema(
     description: { type: String },
     status: {
       type: String,
-      enum: ["TODO", "IN_PROGRESS", "DONE"],
-      default: "TODO",
+      enum: Object.values(TaskStatus),
+      default: TaskStatus.TODO,
     },
     assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
   },

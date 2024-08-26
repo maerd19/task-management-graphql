@@ -30,6 +30,11 @@ export const typeDefs = gql`
     tasks: [Task!]!
   }
 
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
   type Query {
     """
     Query to get all tasks
@@ -107,5 +112,16 @@ export const typeDefs = gql`
   """
   type Subscription {
     taskUpdated: Task!
+  }
+
+  extend type Mutation {
+    signup(input: SignupInput!): AuthPayload!
+    login(email: String!, password: String!): AuthPayload!
+  }
+
+  input SignupInput {
+    name: String!
+    email: String!
+    password: String!
   }
 `;
